@@ -28,4 +28,8 @@ public class Node<T> {
     public T getValue() {
         return value;
     }
+
+    public String toString() {
+        return value.toString();
+    }
 }

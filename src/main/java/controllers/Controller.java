@@ -1,23 +1,25 @@
 package controllers;
 
 import classes.Composition;
+import classes.Node;
 import classes.PlayList;
 import handlers.DatabaseHandler;
+import handlers.FileStorageHandler;
 import handlers.Handler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import org.checkerframework.checker.units.qual.C;
-
 import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -26,11 +28,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
+    private boolean isPlaying = false;
+
+    private PlayList<Composition> currentPlaylist;
+
+    private File audioFile;
+
+    private MediaPlayer mp;
+
+    @FXML
+    private Button addPlaylistBtn;
+
+    @FXML
+    private Label artistsAlbumsLabel;
+
+    @FXML
+    private Button closeWindowBtn;
+
+    @FXML
+    private Button deleteSelectedPlaylistBtn;
+
+    @FXML
+    private Button deleteSelectedTrackBtn;
+
+    @FXML
+    private AnchorPane mainAnchor;
+
     @FXML
     private Button nextTrackBtn;
 
     @FXML
-    private Button pauseTrackBtn;
+    private Button openFileChooserBtn;
+
+    @FXML
+    private Button pauseOrPlayTrackBtn;
 
     @FXML
     private ChoiceBox<String> playlistChoiceBox;
@@ -39,22 +70,13 @@ public class Controller {
     private Button prevTrackBtn;
 
     @FXML
-    private ChoiceBox<Composition> trackChoiceBox;
+    private ChoiceBox<Node<Composition>> trackChoiceBox;
 
     @FXML
-    private Button closeWindowBtn;
-
-    @FXML
-    private AnchorPane mainAnchor;
-
-    @FXML
-    private Button openFileChooserBtn;
+    private Label trackNameLabel;
 
     @FXML
     private AnchorPane tracksAnchorPane;
-
-    @FXML
-    private Button addPlaylistBtn;
 
     @FXML
     void initialize() {
@@ -64,28 +86,152 @@ public class Controller {
         closeWindowBtn.setOnAction(_ -> System.exit(0));
         openFileChooserBtn.setOnAction(_ -> openFileChooser());
         trackChoiceBox.setOnAction(_ -> selectTrack());
+        pauseOrPlayTrackBtn.setOnAction(_ -> playSelectedTrack());
+        prevTrackBtn.setOnAction(_ -> selectPrevTrack());
+        nextTrackBtn.setOnAction(_ -> selectNextTrack());
+        deleteSelectedPlaylistBtn.setOnAction(_ -> deletePlaylist());
+        deleteSelectedTrackBtn.setOnAction(_ -> deleteTrack());
+    }
+
+    private void deleteTrack() {
+        if (trackChoiceBox.getSelectionModel().getSelectedItem() == null) {
+            Handler.throwErrorAlert("SELECT THE TRACK",
+                    "Could not turn next track. First, select a track.");
+            return;
+        }
+        try {
+            currentPlaylist.deleteCurrent();
+            DatabaseHandler.deleteTrack(playlistChoiceBox.getSelectionModel().getSelectedItem(),
+                    trackChoiceBox.getSelectionModel().getSelectedItem().getValue());
+        } finally {
+            clearTrackControls();
+            getTracks();
+            trackChoiceBox.getSelectionModel().select(currentPlaylist.getCurrent());
+        }
 
     }
 
+    private void deletePlaylist() {
+        if (playlistChoiceBox.getSelectionModel().getSelectedItem() == null) {
+            Handler.throwErrorAlert("SELECT THE PLAYLIST",
+                    "Could not delete a playlist. First, select a playlist.");
+            return;
+        }
+        try {
+            DatabaseHandler.deletePlaylist(playlistChoiceBox.getSelectionModel().getSelectedItem());
+        } catch (SQLException e) {
+            System.err.println("Could not delete playlist "
+                    + playlistChoiceBox.getSelectionModel().getSelectedItem()
+                    + ":\n" + e.getMessage());
+        } finally {
+            clearPlaylistControls();
+            playlistChoiceBox.getItems().addAll(getPlaylists());
+        }
+    }
+
+    private void selectNextTrack () {
+        if (trackChoiceBox.getSelectionModel().getSelectedItem() == null) {
+            Handler.throwErrorAlert("SELECT THE TRACK",
+                    "Could not turn next track. First, select a track.");
+            return;
+        }
+        boolean isPlayed = false;
+        if (isPlaying) {
+            mp.stop();
+            isPlayed = true;
+        }
+        Node<Composition> next = currentPlaylist.getCurrent().getNextNode();
+        trackChoiceBox.getSelectionModel().select(next);
+        selectTrack();
+        if (isPlayed) {
+            playSelectedTrack();
+        }
+    }
+
+    private void selectPrevTrack () {
+        if (trackChoiceBox.getSelectionModel().getSelectedItem() == null) {
+            Handler.throwErrorAlert("SELECT THE TRACK",
+                    "Could not turn previous track. First, select a track.");
+            return;
+        }
+        boolean isPlayed = false;
+        if (isPlaying) {
+            mp.stop();
+            isPlayed = true;
+        }
+        Node<Composition> prev = currentPlaylist.getCurrent().getPreNode();
+        trackChoiceBox.getSelectionModel().select(prev);
+        selectTrack();
+        if (isPlayed) {
+            playSelectedTrack();
+        }
+    }
+
+    private void playSelectedTrack () {
+        if (trackChoiceBox.getSelectionModel().getSelectedItem() == null) {
+            Handler.throwErrorAlert("SELECT THE TRACK",
+                    "Could not play a track. First, select a track.");
+            return;
+        }
+        mp.play();
+        isPlaying = true;
+        pauseOrPlayTrackBtn.setText("| |");
+        pauseOrPlayTrackBtn.setOnAction(_ -> pauseSelectedTrack());
+    }
+
+    private void pauseSelectedTrack () {
+        mp.pause();
+        isPlaying = false;
+        pauseOrPlayTrackBtn.setText("⯈");
+        pauseOrPlayTrackBtn.setOnAction(_ -> playSelectedTrack());
+    }
+
     private void selectTrack () {
-        System.out.println("The track is selected.");
+        if (isPlaying) {
+            mp.stop();
+            isPlaying = false;
+            pauseOrPlayTrackBtn.setText("⯈");
+            pauseOrPlayTrackBtn.setOnAction(_ -> playSelectedTrack());
+        }
+        if (trackChoiceBox.getSelectionModel().getSelectedItem() == null) {
+            return;
+        }
+        Node<Composition> selectedNode = trackChoiceBox.getSelectionModel().getSelectedItem();
+        currentPlaylist.setCurrent(selectedNode);
+        Composition selected = selectedNode.getValue();
+        trackNameLabel.setText(selected.getName());
+        artistsAlbumsLabel.setText(selected.getArtists()
+                + " | " + selected.getAlbums());
+        audioFile = FileStorageHandler.downloadTrack(
+                selected.getUuid());
+        if (audioFile.exists()) {
+            System.out.println("Temp. file "
+                    + audioFile.getAbsolutePath()
+                    + " exists.");
+        }
+        mp = new MediaPlayer(new Media(audioFile.toURI().toString()));
     }
 
     private void setTracks(PlayList<Composition> playList) {
         playList.setCurrent(playList.getTail());
         while (playList.getCurrent().getPreNode() != playList.getTail()) {
-                trackChoiceBox.getItems().addFirst(playList.getCurrent().getValue());
+                trackChoiceBox.getItems().addFirst(playList.getCurrent());
                 playList.turnLeftCurrent();}
-        trackChoiceBox.getItems().addFirst(playList.getCurrent().getValue());
+        trackChoiceBox.getItems().addFirst(playList.getCurrent());
         playList.setCurrent(playList.getHead());
     }
 
     private void getTracks () {
-        trackChoiceBox.getItems().clear();
-        Handler.setPlaylist(playlistChoiceBox.getValue());
+        if (playlistChoiceBox.getSelectionModel().getSelectedItem() == null) {
+            return;
+        }
+        clearTrackControls();
+        Handler.setPlaylist(playlistChoiceBox.getSelectionModel().getSelectedItem());
         try {
-            PlayList<Composition> playList = new PlayList<>();
-            String query = "SELECT " + Handler.getPlaylist() + ".name, " +
+            currentPlaylist = new PlayList<>();
+            String query = "SELECT " +
+                    Handler.getPlaylist() + ".id, " +
+                    Handler.getPlaylist() + ".name, " +
                     Handler.getPlaylist() + ".artists, " +
                     Handler.getPlaylist() + ".albums, " +
                     Handler.getPlaylist() + ".id_track, " +
@@ -94,16 +240,18 @@ public class Controller {
                     "JOIN uploaded_tracks ON " + Handler.getPlaylist() + ".id_track = uploaded_tracks.id_track;";
             ResultSet rs = DatabaseHandler.getResultSet(query);
             while (rs.next()) {
-                playList.addHead(new Composition(rs.getString("name"),
+                currentPlaylist.addHead(new Composition(
+                        rs.getInt("id"),
+                        rs.getString("name"),
                         rs.getString("artists"),
                         rs.getString("albums"),
                         rs.getString("uuid_track")));
             }
-            if (playList.size() == 0) {
+            if (currentPlaylist.size() == 0) {
                 Handler.throwInfoAlert("THERE ARE NO TRACKS", "Add at least one track to the playlist.");
                 return;
             }
-            setTracks(playList);
+            setTracks(currentPlaylist);
         } catch (SQLException e) {
             System.err.println("Could not set tracks: \n"
                     + e.getMessage());
@@ -163,6 +311,7 @@ public class Controller {
         } finally {
             trackChoiceBox.getItems().clear();
             getTracks();
+            trackChoiceBox.getSelectionModel().select(currentPlaylist.getCurrent());
         }
     }
 
@@ -183,4 +332,25 @@ public class Controller {
             playlistChoiceBox.getItems().addAll(getPlaylists());
         }
     }
+
+    private void clearTrackControls () {
+        trackChoiceBox.getSelectionModel().clearSelection();
+        trackChoiceBox.getItems().clear();
+        trackNameLabel.setText("");
+        artistsAlbumsLabel.setText("");
+        if (isPlaying) {
+            mp.stop();
+            isPlaying = false;
+        }
+        audioFile = null;
+
+    }
+
+    private void clearPlaylistControls () {
+        clearTrackControls();
+        playlistChoiceBox.getSelectionModel().clearSelection();
+        playlistChoiceBox.getItems().clear();
+        currentPlaylist = null;
+    }
+
 }

@@ -32,11 +32,15 @@ public class LinkedList<T> {
         if (head == null && tail == null) {
             head = newNode;
             tail = newNode;
+            head.setNextNode(tail);
+            head.setPreNode(tail);
+            tail.setNextNode(head);
+            tail.setPreNode(head);
         } else {
-            head.setPreNode(newNode);
             newNode.setNextNode(head);
             newNode.setPreNode(tail);
             tail.setNextNode(newNode);
+            head.setPreNode(newNode);
             head = newNode;
         }
     }
@@ -46,10 +50,14 @@ public class LinkedList<T> {
         if (tail == null && head == null) {
             head = newNode;
             tail = newNode;
+            head.setNextNode(tail);
+            head.setPreNode(tail);
+            tail.setNextNode(head);
+            tail.setPreNode(head);
         } else {
-            tail.setNextNode(newNode);
             newNode.setPreNode(tail);
             newNode.setNextNode(head);
+            tail.setNextNode(newNode);
             head.setPreNode(newNode);
             tail = newNode;
         }
