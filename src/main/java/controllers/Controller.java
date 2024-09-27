@@ -76,7 +76,10 @@ public class Controller {
     private Label trackNameLabel;
 
     @FXML
-    private AnchorPane tracksAnchorPane;
+    private Button editSelectedTrackBtn;
+
+    @FXML
+    private Button changePosTrackBtn;
 
     @FXML
     void initialize() {
@@ -91,12 +94,44 @@ public class Controller {
         nextTrackBtn.setOnAction(_ -> selectNextTrack());
         deleteSelectedPlaylistBtn.setOnAction(_ -> deletePlaylist());
         deleteSelectedTrackBtn.setOnAction(_ -> deleteTrack());
+        editSelectedTrackBtn.setOnAction(_ -> editTrack());
+    }
+
+    private void editTrack () {
+        if (trackChoiceBox.getSelectionModel().getSelectedItem() == null) {
+            Handler.throwErrorAlert("SELECT THE TRACK",
+                    "Could not edit a track. First, select a track.");
+            return;
+        }
+        Handler.setSelectedComposition(
+                trackChoiceBox.getSelectionModel().getSelectedItem().getValue());
+        openDialogueEdit();
+    }
+
+    private void openDialogueEdit () {
+        Stage dialogue = new Stage();
+        dialogue.initStyle(StageStyle.UNDECORATED);
+        dialogue.initModality(Modality.WINDOW_MODAL);
+        dialogue.initOwner(mainAnchor.getScene().getWindow());
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/dialogueEdit.fxml"));
+            dialogue.setScene(new Scene(root));
+            dialogue.showAndWait();
+        } catch (IOException e) {
+            System.err.println("Could not loaded dialogue edit fxml file."
+                    + e.getMessage());
+        } finally {
+            dialogue.close();
+            clearTrackControls();
+            getTracks();
+            trackChoiceBox.getSelectionModel().select(currentPlaylist.getCurrent());
+        }
     }
 
     private void deleteTrack() {
         if (trackChoiceBox.getSelectionModel().getSelectedItem() == null) {
             Handler.throwErrorAlert("SELECT THE TRACK",
-                    "Could not turn next track. First, select a track.");
+                    "Could not delete a track. First, select a track.");
             return;
         }
         try {
@@ -237,7 +272,8 @@ public class Controller {
                     Handler.getPlaylist() + ".id_track, " +
                     "uploaded_tracks.uuid_track " +
                     "FROM " + Handler.getPlaylist() + " " +
-                    "JOIN uploaded_tracks ON " + Handler.getPlaylist() + ".id_track = uploaded_tracks.id_track;";
+                    "JOIN uploaded_tracks ON " + Handler.getPlaylist() + ".id_track = uploaded_tracks.id_track" +
+                    " ORDER BY id ASC;";
             ResultSet rs = DatabaseHandler.getResultSet(query);
             while (rs.next()) {
                 currentPlaylist.addHead(new Composition(
@@ -309,6 +345,7 @@ public class Controller {
             System.err.println("Could not loaded dialogue track fxml file."
             + e.getMessage());
         } finally {
+            dialogue.close();
             trackChoiceBox.getItems().clear();
             getTracks();
             trackChoiceBox.getSelectionModel().select(currentPlaylist.getCurrent());
@@ -328,6 +365,7 @@ public class Controller {
             System.err.println("Could not loaded dialogue playlist fxml file."
                     + e.getMessage());
         } finally {
+            dialogue.close();
             playlistChoiceBox.getItems().clear();
             playlistChoiceBox.getItems().addAll(getPlaylists());
         }

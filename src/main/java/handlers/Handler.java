@@ -1,6 +1,7 @@
 package handlers;
 
 
+import classes.Composition;
 import javafx.scene.control.Alert;
 
 import java.io.File;
@@ -8,6 +9,15 @@ import java.io.File;
 public class Handler {
     private static File chosenFile;
     private static String playlist;
+    private static Composition selectedComposition;
+
+    public static void setSelectedComposition (Composition selectedComposition) {
+        Handler.selectedComposition = selectedComposition;
+    }
+
+    public static Composition getSelectedComposition () {
+        return selectedComposition;
+    }
 
     public static void setPlaylist(String playlist) {
         Handler.playlist = playlist;

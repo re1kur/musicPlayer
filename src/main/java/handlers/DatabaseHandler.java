@@ -60,6 +60,24 @@ public class DatabaseHandler {
         return null;
     }
 
+    public static void editTrack (String table, int id,
+                                  String name, String artists,
+                                  String albums) {
+        String query = "UPDATE " + table +
+                " SET name = '" + name + "', artists = '" +
+                artists + "', albums = '" + albums + "'" +
+                "WHERE id = " + id;
+        try {
+            DatabaseHandler.executeUpdate(query);
+        } catch (SQLException e) {
+            System.err.println("Could not edit the track\n"
+            + e.getMessage());
+        } finally {
+            closeStatement();
+            closeConnection();
+        }
+    }
+
     public static void uploadTrack(String table, String name,
                                    String artists, String albums,
                                    String path) {
@@ -111,6 +129,7 @@ public class DatabaseHandler {
         }
         return null;
     }
+
     public static void deletePlaylist(String playlist) throws SQLException {
         String query1 = "DELETE FROM playlists WHERE playlist_name = ?";
         try (PreparedStatement ps1 = connection.prepareStatement(query1)) {

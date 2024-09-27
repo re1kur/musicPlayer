@@ -35,7 +35,7 @@ public class DialogueTrackController {
     void initialize () {
         pathLabel.setText(getFilePath());
         fileNameLabel.setText(getFileName());
-        closeWindowBtn.setOnAction(_ -> albumsTextField.getScene().getWindow().hide());
+        closeWindowBtn.setOnAction(_ -> closeWindow());
         insertTrackIntoBtn.setOnAction(_ -> insertTrackIntoBD());
 
     }
@@ -69,9 +69,10 @@ public class DialogueTrackController {
         }
         DatabaseHandler.uploadTrack(Handler.getPlaylist(), nameTextField.getText(),
                 artistsTextField.getText(), albumsTextField.getText(), Handler.getChosenFile().getAbsolutePath());
-        artistsTextField.getScene().getWindow().hide();
+        closeWindow();
     }
 
-
-    
+    private void closeWindow () {
+        albumsTextField.getScene().getWindow().hide();
+    }
 }
