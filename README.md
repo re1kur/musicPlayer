@@ -5,4 +5,4 @@ because they were been created on my local....(
 
 i don't have money for a cloud.
 
-used Postgresql.
+I used Postgresql and MinIO.
