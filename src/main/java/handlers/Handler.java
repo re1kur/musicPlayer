@@ -3,8 +3,11 @@ package handlers;
 import classes.Composition;
 import classes.Node;
 import classes.PlayList;
+
 import java.io.File;
+
 import javafx.scene.control.Alert;
+
 /*
 Класс-помощник для обработки разных статических методов.
  */
@@ -20,36 +23,42 @@ public class Handler {
     public static void setSelectedNode(Node<Composition> selectedNode) {
         Handler.selectedNode = selectedNode;
     }
+
     /*
     Метод-геттер для выбранного нода
      */
     public static Node<Composition> getSelectedNode() {
         return selectedNode;
     }
+
     /*
     Метод-сеттер для выбранного плейлиста(его названия)
      */
     public static void setPlaylistName(String playlistName) {
         Handler.playlistName = playlistName;
     }
+
     /*
     Метод-геттер для выбранного плейлиста(его названия)
      */
     public static String getPlaylistName() {
         return playlistName;
     }
+
     /*
     Метод-сеттер для выбранного файла
      */
     public static void setChosenFile(File file) {
         chosenFile = file;
     }
+
     /*
     Метод-геттер для выбранного файла
      */
     public static File getChosenFile() {
         return chosenFile;
     }
+
     /*
     Метод для открывания модального окошка в виде сообщения об ошибке
      */
@@ -59,6 +68,7 @@ public class Handler {
         alert.setTitle(title);
         alert.showAndWait();
     }
+
     /*
         Метод для открывания модального окошка в виде обычного сообщения
      */
@@ -68,12 +78,14 @@ public class Handler {
         alert.setTitle(title);
         alert.showAndWait();
     }
+
     /*
     Метод-геттер для выбранного плейлиста
      */
     public static PlayList<Composition> getPlaylist() {
         return playlist;
     }
+
     /*
     Метод-сеттер для выбранного плейлиста
      */

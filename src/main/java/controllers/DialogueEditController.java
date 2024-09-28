@@ -5,19 +5,26 @@ import handlers.Handler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+
 /*
 Класс-контроллер окна dialogueEdit для обработки нажатий на разные кнопки
  */
 public class DialogueEditController {
-    @FXML private TextField albumsTextField;
+    @FXML
+    private TextField albumsTextField;
 
-    @FXML private TextField artistsTextField;
+    @FXML
+    private TextField artistsTextField;
 
-    @FXML private Button closeWindowBtn;
+    @FXML
+    private Button closeWindowBtn;
 
-    @FXML private Button editTrackBtn;
+    @FXML
+    private Button editTrackBtn;
 
-    @FXML private TextField nameTextField;
+    @FXML
+    private TextField nameTextField;
+
     /*
     Стандартный метод Javafx для определения методов для контролов при инициализации
     аппликации.
@@ -30,12 +37,14 @@ public class DialogueEditController {
         closeWindowBtn.setOnAction(_ -> closeWindow());
         editTrackBtn.setOnAction(_ -> editTrackBD());
     }
+
     /*
     Метод для закрытия окна
      */
     private void closeWindow() {
         artistsTextField.getScene().getWindow().hide();
     }
+
     /*
     Метод редактирования трека в бд
      */
@@ -50,6 +59,7 @@ public class DialogueEditController {
                 artistsTextField.getText(), albumsTextField.getText());
         closeWindow();
     }
+
     /*
     Метод для проверки текстовых полей
      */

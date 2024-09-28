@@ -2,6 +2,7 @@ package handlers;
 
 import io.minio.*;
 import io.minio.errors.*;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,22 +10,24 @@ import java.io.InputStream;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
+
 /*
 Класс-обработчик методов для работы с файловым хранилищем MINIO
  */
 public class FileStorageHandler {
     protected static MinioClient minioClient;
-    protected static String user = "testMusicPlayer";
-    protected static String pass = "123456778";
-    protected static String url = "http://localhost:9000";
+    protected final static String user = "testMusicPlayer";
+    protected final static String pass = "123456778";
+    protected final static String url = "http://localhost:9000";
+
     /*
     Метод-геттер для создания клиента
      */
     private static void getClient() {
         minioClient =
                 MinioClient.builder().endpoint(url).credentials(user, pass).build();
-        isExistsBucket();
     }
+
     /*
     Метод для загрузки выбранного трека в файловое хранилище
      */
@@ -48,10 +51,12 @@ public class FileStorageHandler {
         }
         return null;
     }
+
     /*
     Метод для проверки, существует ли bucket. Если не существует, создает его
      */
-    private static void isExistsBucket() {
+    public static void isExistsBucket() {
+        getClient();
         try {
             boolean found = minioClient.bucketExists(
                     BucketExistsArgs.builder().bucket("uploaded.tracks").build());
@@ -66,6 +71,7 @@ public class FileStorageHandler {
                     + e.getMessage());
         }
     }
+
     /*
     Метод для скачивания трека из файлового хранилища
      */
@@ -95,6 +101,7 @@ public class FileStorageHandler {
         }
         return track;
     }
+
     /*
     Метод для удаления трека из файлового хранилища
      */
@@ -114,6 +121,7 @@ public class FileStorageHandler {
             closeClient();
         }
     }
+
     /*
     Метод для закрытия клиента minio в целях экономии памяти
      */

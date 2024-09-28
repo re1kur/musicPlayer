@@ -6,6 +6,7 @@ import classes.PlayList;
 import handlers.DatabaseHandler;
 import handlers.FileStorageHandler;
 import handlers.Handler;
+
 import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -28,6 +29,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 /*
 Класс-контроллер окна mainWindow для обработки нажатий на разные кнопки
  */
@@ -40,41 +42,59 @@ public class Controller {
 
     private MediaPlayer mp;
 
-    @FXML private Button addPlaylistBtn;
+    @FXML
+    private Button addPlaylistBtn;
 
-    @FXML private Label artistsAlbumsLabel;
+    @FXML
+    private Label artistsAlbumsLabel;
 
-    @FXML private Button closeWindowBtn;
+    @FXML
+    private Button closeWindowBtn;
 
-    @FXML private Button deleteSelectedPlaylistBtn;
+    @FXML
+    private Button deleteSelectedPlaylistBtn;
 
-    @FXML private Button deleteSelectedTrackBtn;
+    @FXML
+    private Button deleteSelectedTrackBtn;
 
-    @FXML private AnchorPane mainAnchor;
+    @FXML
+    private AnchorPane mainAnchor;
 
-    @FXML private Button nextTrackBtn;
+    @FXML
+    private Button nextTrackBtn;
 
-    @FXML private Button openFileChooserBtn;
+    @FXML
+    private Button openFileChooserBtn;
 
-    @FXML private Button pauseOrPlayTrackBtn;
+    @FXML
+    private Button pauseOrPlayTrackBtn;
 
-    @FXML private ChoiceBox<String> playlistChoiceBox;
+    @FXML
+    private ChoiceBox<String> playlistChoiceBox;
 
-    @FXML private Button prevTrackBtn;
+    @FXML
+    private Button prevTrackBtn;
 
-    @FXML private ChoiceBox<Node<Composition>> trackChoiceBox;
+    @FXML
+    private ChoiceBox<Node<Composition>> trackChoiceBox;
 
-    @FXML private Label trackNameLabel;
+    @FXML
+    private Label trackNameLabel;
 
-    @FXML private Button editSelectedTrackBtn;
+    @FXML
+    private Button editSelectedTrackBtn;
 
-    @FXML private Button changePosTrackBtn;
+    @FXML
+    private Button changePosTrackBtn;
+
     /*
     Стандартный метод Javafx для определения методов для контролов при инициализации
     аппликации.
      */
     @FXML
     void initialize() {
+        FileStorageHandler.isExistsBucket();
+        DatabaseHandler.createTables();
         addPlaylistBtn.setOnAction(_ -> openDialoguePlaylist());
         playlistChoiceBox.getItems().addAll(Objects.requireNonNull(getPlaylists()));
         playlistChoiceBox.setOnAction(_ -> getTracks());
@@ -89,6 +109,7 @@ public class Controller {
         editSelectedTrackBtn.setOnAction(_ -> editTrack());
         changePosTrackBtn.setOnAction(_ -> changePositionTrack());
     }
+
     /*
     Метод для изменения позиции трека в плейлисте
      */
@@ -102,6 +123,7 @@ public class Controller {
                 trackChoiceBox.getSelectionModel().getSelectedItem());
         openDialogueChangePos();
     }
+
     /*
     Метод для открытия модального окна-диалога для изменения позиции трека
      */
@@ -126,6 +148,7 @@ public class Controller {
             trackChoiceBox.getSelectionModel().select(currentPlaylist.getCurrent());
         }
     }
+
     /*
     Метод для редактирования трека
      */
@@ -163,6 +186,7 @@ public class Controller {
             trackChoiceBox.getSelectionModel().select(currentPlaylist.getCurrent());
         }
     }
+
     /*
     Метод для удаления выбранного трека
      */
@@ -183,6 +207,7 @@ public class Controller {
             trackChoiceBox.getSelectionModel().select(currentPlaylist.getCurrent());
         }
     }
+
     /*
     Метод для удаления выбранного плейлиста
      */
@@ -204,6 +229,7 @@ public class Controller {
             playlistChoiceBox.getItems().addAll(Objects.requireNonNull(getPlaylists()));
         }
     }
+
     /*
     Метод для переключения трека с текущего на следующий
      */
@@ -225,6 +251,7 @@ public class Controller {
             playSelectedTrack();
         }
     }
+
     /*
     Метод для переключения текущего трека на предыдущий
      */
@@ -246,6 +273,7 @@ public class Controller {
             playSelectedTrack();
         }
     }
+
     /*
     Метод для проигрывания выбранного трека
      */
@@ -260,6 +288,7 @@ public class Controller {
         pauseOrPlayTrackBtn.setText("| |");
         pauseOrPlayTrackBtn.setOnAction(_ -> pauseSelectedTrack());
     }
+
     /*
     Метод для установки паузы для выбранного трека
      */
@@ -269,6 +298,7 @@ public class Controller {
         pauseOrPlayTrackBtn.setText("⯈");
         pauseOrPlayTrackBtn.setOnAction(_ -> playSelectedTrack());
     }
+
     /*
     Метод для выбора трека
      */
@@ -290,12 +320,16 @@ public class Controller {
         artistsAlbumsLabel.setText(
                 selected.getArtists() + " | " + selected.getAlbums());
         audioFile = FileStorageHandler.downloadTrack(selected.getUuid());
+        if (audioFile == null) {
+            return;
+        }
         if (audioFile.exists()) {
             System.out.println(
                     "Temp. file " + audioFile.getAbsolutePath() + " exists.");
         }
         mp = new MediaPlayer(new Media(audioFile.toURI().toString()));
     }
+
     /*
     Метод-сеттер для choiceBox
      */
@@ -308,6 +342,7 @@ public class Controller {
         trackChoiceBox.getItems().addFirst(playList.getCurrent());
         playList.setCurrent(playList.getHead());
     }
+
     /*
     Метод-геттер треков из бд
      */
@@ -346,6 +381,7 @@ public class Controller {
             System.err.println("Could not set tracks: \n" + e.getMessage());
         }
     }
+
     /*
     Метод для получения всех плейлистов из бд
      */
@@ -362,6 +398,7 @@ public class Controller {
         }
         return null;
     }
+
     /*
     Метод для открытия модального окна-диалога для выбора трека для загрузки его в плейлист/файловое хранилище
      */
@@ -386,6 +423,7 @@ public class Controller {
             Handler.throwErrorAlert("CHOOSING_FILE_ERROR", "File not found.");
         }
     }
+
     /*
     Метод для открытия модального окна-диалога для вставки выбранного трека в плейлист
      */
@@ -411,6 +449,7 @@ public class Controller {
             trackChoiceBox.getSelectionModel().select(currentPlaylist.getCurrent());
         }
     }
+
     /*
     Метод для открытия модального окна-диалога для создания плейлиста
      */
@@ -433,6 +472,7 @@ public class Controller {
             playlistChoiceBox.getItems().addAll(Objects.requireNonNull(getPlaylists()));
         }
     }
+
     /*
     Метод для очистки контролов, связыных с треком
      */
@@ -447,6 +487,7 @@ public class Controller {
         }
         audioFile = null;
     }
+
     /*
     Метод для очистки всех контролов, включая трек и плейлист
      */

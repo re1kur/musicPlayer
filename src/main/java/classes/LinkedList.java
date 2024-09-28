@@ -1,6 +1,7 @@
 package classes;
 
 import java.util.NoSuchElementException;
+
 /*
 Класс двусвязного кольцевого списка
  */
@@ -8,16 +9,17 @@ public class LinkedList<T> {
     private Node<T> head;
     private Node<T> tail;
     private Node<T> current;
+
     /*
     Конструктор
      */
-    public LinkedList () {
+    public LinkedList() {
     }
 
     /*
     Метод для изменения обратного порядка списка
      */
-    public LinkedList<T> reversed () {
+    public LinkedList<T> reversed() {
         LinkedList<T> reversedList = new LinkedList<>();
         if (head == null) {
             return reversedList;
@@ -29,10 +31,11 @@ public class LinkedList<T> {
         } while (current != tail);
         return reversedList;
     }
+
     /*
     Метод для проверки, содержит ли один из нодов списка данное значение
      */
-    public boolean contains (T value) {
+    public boolean contains(T value) {
         if (head == null) {
             return false;
         }
@@ -48,10 +51,11 @@ public class LinkedList<T> {
         }
         return false;
     }
+
     /*
     Метод для получения нода по индексу
      */
-    public Node<T> getNode (int index) {
+    public Node<T> getNode(int index) {
         if (index < 0 || index >= size()) {
             throw new IndexOutOfBoundsException("Index out of bounds");
         }
@@ -61,10 +65,11 @@ public class LinkedList<T> {
         }
         return current;
     }
+
     /*
     Метод для вставки нового нода после выбранного в список
      */
-    public void insert (Node<T> previousNode, Node<T> newNode) {
+    public void insert(Node<T> previousNode, Node<T> newNode) {
         if (size() == 0) {
             return;
         }
@@ -82,16 +87,18 @@ public class LinkedList<T> {
         newNode.setNextNode(nextNode);
         nextNode.setPreNode(newNode);
     }
+
     /*
     Метод-алиас для метода AddTail()
      */
-    public void add (T value) {
+    public void add(T value) {
         addTail(value);
     }
+
     /*
     Метод для добавления нового нода в качестве Head
      */
-    public void addHead (T value) {
+    public void addHead(T value) {
         Node<T> newNode = new Node<>(value);
         if (head == null && tail == null) {
             head = newNode;
@@ -108,10 +115,11 @@ public class LinkedList<T> {
             head = newNode;
         }
     }
+
     /*
     Метод для добавления нового нода в качестве Tail
      */
-    public void addTail (T value) {
+    public void addTail(T value) {
         Node<T> newNode = new Node<>(value);
         if (tail == null && head == null) {
             head = newNode;
@@ -128,6 +136,7 @@ public class LinkedList<T> {
             tail = newNode;
         }
     }
+
     /*
     Метод для получения длины списка
      */
@@ -146,46 +155,53 @@ public class LinkedList<T> {
         } while (current != head);
         return size;
     }
+
     /*
     Метод-сеттер для нода Current
      */
-    public void setCurrent (Node<T> node) {
+    public void setCurrent(Node<T> node) {
         current = node;
     }
+
     /*
     Метод-геттер нода Current
      */
     public Node<T> getCurrent() {
         return current;
     }
+
     /*
     Метод-геттер нода Head
      */
     public Node<T> getHead() {
         return head;
     }
+
     /*
     Метод-геттер нода Tail
      */
     public Node<T> getTail() {
         return tail;
     }
+
     /*
     Метод для переключения current на одну позицию вправо
      */
-    public void turnRightCurrent () {
+    public void turnRightCurrent() {
         setCurrent(current.getNextNode());
     }
+
     /*
     Метод для переключения current на одну позицию влево
      */
-    public void turnLeftCurrent () {
+    public void turnLeftCurrent() {
         setCurrent(current.getPreNode());
     }
+
     /*
     Метод для получения строкового представления списка
      */
-    public String toString () {
+    public String toString() {
         setCurrent(head);
         StringBuilder str = new StringBuilder();
         while (current.getNextNode() != head) {
@@ -195,14 +211,16 @@ public class LinkedList<T> {
         str.append(current.getValue().toString());
         return str.toString();
     }
+
     /*
     Метод для удаления current
      */
-    public void deleteCurrent () {
+    public void deleteCurrent() {
         current.getPreNode().setNextNode(current.getNextNode());
         current.getNextNode().setPreNode(current.getPreNode());
         current = head;
     }
+
     /*
     Метод для удаления нода со значением value
      */
@@ -238,20 +256,12 @@ public class LinkedList<T> {
         }
         throw new NoSuchElementException();
     }
+
     /*
     Метод для перемещения двигающегося нода после выбранного нода
      */
     public void moveAfter(Node<T> movingNode, Node<T> previousNode) {
-        if (movingNode == head) {
-            head = movingNode.getNextNode();
-        }
-        if (movingNode == tail) {
-            tail = movingNode.getPreNode();
-        }
-        Node<T> pastPrevNode = movingNode.getPreNode();
-        Node<T> pastNextNode = movingNode.getNextNode();
-        pastPrevNode.setNextNode(pastNextNode);
-        pastNextNode.setPreNode(pastPrevNode);
+        def_act(movingNode);
         movingNode.setPreNode(previousNode);
         if (previousNode == tail) {
             movingNode.setNextNode(head);
@@ -265,10 +275,11 @@ public class LinkedList<T> {
             previousNode.setNextNode(movingNode);
         }
     }
+
     /*
     Метод-геттер для нода tail
      */
-    public void setTail (Node<T> node) {
+    public void setTail(Node<T> node) {
         tail.setNextNode(node);
         node.setNextNode(head);
         node.setPreNode(tail);
@@ -276,20 +287,12 @@ public class LinkedList<T> {
         tail = node;
 
     }
+
     /*
     Метод для перемещения двигающегося нода перед выбранным нодом
      */
     public void moveBefore(Node<T> movingNode, Node<T> nextNode) {
-        if (movingNode == head) {
-            head = movingNode.getNextNode();
-        }
-        if (movingNode == tail) {
-            tail = movingNode.getPreNode();
-        }
-        Node<T> pastPrevNode = movingNode.getPreNode();
-        Node<T> pastNextNode = movingNode.getNextNode();
-        pastPrevNode.setNextNode(pastNextNode);
-        pastNextNode.setPreNode(pastPrevNode);
+        def_act(movingNode);
         movingNode.setNextNode(nextNode);
         if (nextNode == head) {
             movingNode.setPreNode(tail);
@@ -303,6 +306,20 @@ public class LinkedList<T> {
             nextNode.setPreNode(movingNode);
         }
     }
+
+    private void def_act(Node<T> movingNode) {
+        if (movingNode == head) {
+            head = movingNode.getNextNode();
+        }
+        if (movingNode == tail) {
+            tail = movingNode.getPreNode();
+        }
+        Node<T> pastPrevNode = movingNode.getPreNode();
+        Node<T> pastNextNode = movingNode.getNextNode();
+        pastPrevNode.setNextNode(pastNextNode);
+        pastNextNode.setPreNode(pastPrevNode);
+    }
+
     /*
     Метод для свапа двигающегося нода с выбранным нодом
      */
@@ -340,6 +357,7 @@ public class LinkedList<T> {
             tail = movingNode;
         }
     }
+
     /*
     Метод для свапа двигающегося нода с выбранным нодом, если ноды являются соседними
      */

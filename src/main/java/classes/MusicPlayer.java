@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 /*
 Класс-аппликация музыкального плеера
  */
@@ -16,6 +17,7 @@ public class MusicPlayer extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
     /*
     Стандартный метод для запуска аппликации в виде окна с файла fxml
      */

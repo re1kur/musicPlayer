@@ -1,7 +1,7 @@
 import classes.LinkedList;
 import classes.Node;
 import junit.framework.TestCase;
-import org.junit.Test;
+
 import java.util.NoSuchElementException;
 
 public class TestLinkedList extends TestCase {
@@ -11,18 +11,19 @@ public class TestLinkedList extends TestCase {
 
     private static final int[] TEST_LAST = TEST_SIZE;
 
-    public void testSize () {
+    public void testSize() {
         LinkedList<Integer> linkedList = new LinkedList<>();
-        for (int value: TEST_SIZE) {
+        for (int value : TEST_SIZE) {
             linkedList.add(value);
         }
         assertEquals(TEST_SIZE.length, linkedList.size());
     }
+
     private Node<Integer> last_Test;
 
-    public void testLast () {
+    public void testLast() {
         LinkedList<Integer> linkedList = new LinkedList<>();
-        for (int value: TEST_LAST) {
+        for (int value : TEST_LAST) {
             linkedList.add(value);
             if (value == 10) {
                 last_Test = new Node<>(value);
@@ -34,9 +35,9 @@ public class TestLinkedList extends TestCase {
 
     }
 
-    public void testAddHead () {
+    public void testAddHead() {
         LinkedList<Integer> linkedList = new LinkedList<>();
-        for (int value: TEST_LAST) {
+        for (int value : TEST_LAST) {
             linkedList.add(value);
         }
         Node<Integer> lastHead = linkedList.getHead();
@@ -54,9 +55,9 @@ public class TestLinkedList extends TestCase {
         assertSame(currentHead.getNextNode(), currentHead);
     }
 
-    public void testAddTail () {
+    public void testAddTail() {
         LinkedList<Integer> linkedList = new LinkedList<>();
-        for (int value: TEST_LAST) {
+        for (int value : TEST_LAST) {
             linkedList.add(value);
         }
         Node<Integer> lastTail = linkedList.getTail();
@@ -74,9 +75,9 @@ public class TestLinkedList extends TestCase {
         assertSame(currentTail.getNextNode(), currentTail);
     }
 
-    public void testAdd () {
+    public void testAdd() {
         LinkedList<Integer> linkedList = new LinkedList<>();
-        for (int value: TEST_LAST) {
+        for (int value : TEST_LAST) {
             linkedList.add(value);
         }
         linkedList.add(42);
@@ -86,7 +87,7 @@ public class TestLinkedList extends TestCase {
         assertSame(addedNode.getNextNode(), head);
     }
 
-    public void testAddWithOneValue () {
+    public void testAddWithOneValue() {
         LinkedList<Integer> linkedList = new LinkedList<>();
         linkedList.add(42);
         Node<Integer> addedNode = linkedList.getTail();
@@ -96,8 +97,8 @@ public class TestLinkedList extends TestCase {
 
     public void testDelete() {
         LinkedList<Integer> linkedList = new LinkedList<>();
-        int [] values = {10, 20, 30};
-        for (int value: values) {
+        int[] values = {10, 20, 30};
+        for (int value : values) {
             linkedList.add(value);
         }
         linkedList.delete(10);
@@ -114,7 +115,7 @@ public class TestLinkedList extends TestCase {
 
     public void testDeleteFailed() {
         LinkedList<Integer> linkedList = new LinkedList<>();
-        for (int value: TEST_LAST) {
+        for (int value : TEST_LAST) {
             linkedList.add(value);
         }
         try {

@@ -6,23 +6,32 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+
 /*
 Класс-контроллер окна dialogueTrack для обработки нажатий на разные кнопки
  */
 public class DialogueTrackController {
-    @FXML private TextField albumsTextField;
+    @FXML
+    private TextField albumsTextField;
 
-    @FXML private TextField artistsTextField;
+    @FXML
+    private TextField artistsTextField;
 
-    @FXML private Button closeWindowBtn;
+    @FXML
+    private Button closeWindowBtn;
 
-    @FXML private Label fileNameLabel;
+    @FXML
+    private Label fileNameLabel;
 
-    @FXML private Button insertTrackIntoBtn;
+    @FXML
+    private Button insertTrackIntoBtn;
 
-    @FXML private Label pathLabel;
+    @FXML
+    private Label pathLabel;
 
-    @FXML private TextField nameTextField;
+    @FXML
+    private TextField nameTextField;
+
     /*
     Стандартный метод Javafx для определения методов для контролов при инициализации
     аппликации.
@@ -34,18 +43,21 @@ public class DialogueTrackController {
         closeWindowBtn.setOnAction(_ -> closeWindow());
         insertTrackIntoBtn.setOnAction(_ -> insertTrackIntoBD());
     }
+
     /*
     Метод-геттер для получения выбранного файла
      */
     private String getFileName() {
         return Handler.getChosenFile().getName();
     }
+
     /*
     Метод-геттер для получения абсолютного пути выбранного файла
      */
     private String getFilePath() {
         return Handler.getChosenFile().getAbsolutePath();
     }
+
     /*
     Метод проверки текстовых полей
      */
@@ -58,6 +70,7 @@ public class DialogueTrackController {
         }
         return !albumsTextField.getText().isEmpty();
     }
+
     /*
     Метод вставки трека в бд
      */
@@ -72,6 +85,7 @@ public class DialogueTrackController {
                 albumsTextField.getText(), Handler.getChosenFile().getAbsolutePath());
         closeWindow();
     }
+
     /*
     Метод закрытия окна
      */

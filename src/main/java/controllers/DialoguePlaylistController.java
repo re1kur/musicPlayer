@@ -2,19 +2,26 @@ package controllers;
 
 import handlers.DatabaseHandler;
 import handlers.Handler;
+
 import java.sql.SQLException;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+
 /*
 Класс-контроллер окна dialoguePlaylist для обработки нажатий на разные кнопки
  */
 public class DialoguePlaylistController {
-    @FXML private Button closeWindowBtn;
+    @FXML
+    private Button closeWindowBtn;
 
-    @FXML private Button addPlaylistBtn;
+    @FXML
+    private Button addPlaylistBtn;
 
-    @FXML private TextField nameTextField;
+    @FXML
+    private TextField nameTextField;
+
     /*
     Стандартный метод Javafx для определения методов для контролов при инициализации
     аппликации.
@@ -24,6 +31,7 @@ public class DialoguePlaylistController {
         addPlaylistBtn.setOnAction(_ -> addPlaylistIntoBD());
         closeWindowBtn.setOnAction(_ -> closeWindow());
     }
+
     /*
     Метод добавления плейлиста в бд
      */
@@ -69,6 +77,7 @@ public class DialoguePlaylistController {
                 "The playlist has been successfully created.\nEnjoy the music.");
         closeWindow();
     }
+
     /*
     Метод закрытия окна
      */

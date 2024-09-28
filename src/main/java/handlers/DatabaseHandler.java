@@ -1,9 +1,11 @@
 package handlers;
 
 import classes.Composition;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
 /*
 Класс-обработчик методов для работы с базой данных Postgresql
  */
@@ -14,6 +16,18 @@ public class DatabaseHandler {
     protected static final String password = "123456778";
     protected static final String url =
             "jdbc:postgresql://localhost:5432/musicPlayer";
+
+    public static void createTables() {
+        getConnection();
+        try {
+            executeUpdate("CREATE TABLE playlists (playlist_name TEXT NOT NULL);\n" +
+                    "CREATE TABLE uploaded_tracks (id_track SERIAL PRIMARY KEY NOT NULL, uuid_track TEXT NOT NULL);");
+            System.out.println("Tables created");
+        } catch (SQLException _) {
+            System.out.println("Tables exists.");
+        }
+    }
+
     /*
     Метод для коннекта с бд
      */
@@ -24,6 +38,7 @@ public class DatabaseHandler {
             System.err.println("Could not connect to database\n" + e.getMessage());
         }
     }
+
     /*
     Метод для закрытия коннекта в целях экономии памяти
      */
@@ -34,6 +49,7 @@ public class DatabaseHandler {
             System.err.println("Could not close the connection\n" + e.getMessage());
         }
     }
+
     /*
     Метод для закрытия statement в целях экономии памяти
      */
@@ -44,6 +60,7 @@ public class DatabaseHandler {
             System.err.println("Could not close the statement\n" + e.getMessage());
         }
     }
+
     /*
     Метод для отправки и последующего выполнения запроса в бд
      */
@@ -54,6 +71,7 @@ public class DatabaseHandler {
         closeStatement();
         closeConnection();
     }
+
     /*
     Метод для получения сета из колонок по запросу из бд
      */
@@ -67,6 +85,7 @@ public class DatabaseHandler {
         }
         return null;
     }
+
     /*
     Метод для редактирования колонки в бд
      */
@@ -84,6 +103,7 @@ public class DatabaseHandler {
             closeConnection();
         }
     }
+
     /*
     Метод для загрузки колонки в бд
      */
@@ -108,6 +128,7 @@ public class DatabaseHandler {
             closeConnection();
         }
     }
+
     /*
     Метод для генерации уникального айди для муз.дорожки и последующая его загрузка
     в файловое хранилище
@@ -139,6 +160,7 @@ public class DatabaseHandler {
         }
         return null;
     }
+
     /*
     Метод для удаления плейлиста
      */
@@ -191,6 +213,7 @@ public class DatabaseHandler {
             }
         }
     }
+
     /*
     Метод для удаления трека
      */

@@ -9,27 +9,37 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+
 /*
 Класс-контролер окна dialogueChangePos
  */
 public class DialogueChangePosController {
-    @FXML private Label albumLabel;
+    @FXML
+    private Label albumLabel;
 
-    @FXML private Label artistLabel;
+    @FXML
+    private Label artistLabel;
 
-    @FXML private Button changeBtn;
+    @FXML
+    private Button changeBtn;
 
-    @FXML private Button closeWindowBtn;
+    @FXML
+    private Button closeWindowBtn;
 
-    @FXML private Label nameLabel;
+    @FXML
+    private Label nameLabel;
 
-    @FXML private ChoiceBox<Node<Composition>> posChoiceBox;
+    @FXML
+    private ChoiceBox<Node<Composition>> posChoiceBox;
 
-    @FXML private CheckBox swapCheckBox;
+    @FXML
+    private CheckBox swapCheckBox;
 
-    @FXML private CheckBox afterCheckBox;
+    @FXML
+    private CheckBox afterCheckBox;
 
-    @FXML private CheckBox beforeCheckBox;
+    @FXML
+    private CheckBox beforeCheckBox;
 
     /*
     Стандартный метод Javafx для определения методов для контролов при инициализации
@@ -44,6 +54,7 @@ public class DialogueChangePosController {
         closeWindowBtn.setOnAction(_ -> closeWindow());
         changeBtn.setOnAction(_ -> changePos());
     }
+
     /*
     Сеттер треков для choicebox
      */
@@ -56,6 +67,7 @@ public class DialogueChangePosController {
         posChoiceBox.getItems().addFirst(playList.getCurrent());
         playList.setCurrent(playList.getHead());
     }
+
     /*
     Метод для изменения позиции трека
      */
@@ -86,12 +98,14 @@ public class DialogueChangePosController {
         }
         closeWindow();
     }
+
     /*
     Метод для закрытия окна
      */
     private void closeWindow() {
         albumLabel.getScene().getWindow().hide();
     }
+
     /*
     Метод для проверки нажатия чек боксов
      */
