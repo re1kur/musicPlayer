@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.Controller">
+<AnchorPane fx:id="mainAnchor" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-border-color: black;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.Controller">
    <children>
       <Button fx:id="closeWindowBtn" layoutX="574.0" layoutY="1.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: RED; -fx-border-color: black; -fx-background-radius: 50; -fx-border-radius: 50;" text="X">
          <cursor>
@@ -52,7 +52,7 @@
                   <Cursor fx:constant="CROSSHAIR" />
                </cursor>
             </Button>
-            <Button fx:id="addPlaylistBtn" layoutX="6.0" layoutY="38.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="21.0" prefWidth="140.0" style="-fx-background-color: white; -fx-border-color: green;" text="add playlist">
+            <Button fx:id="editSelectedTrackBtn" layoutX="6.0" layoutY="38.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="21.0" prefWidth="140.0" style="-fx-background-color: white; -fx-border-color: green;" text="edit selected track">
                <font>
                   <Font size="10.0" />
                </font>
@@ -60,7 +60,7 @@
                   <Cursor fx:constant="CROSSHAIR" />
                </cursor>
             </Button>
-            <Button fx:id="deleteSelectedPlaylistBtn" layoutX="6.0" layoutY="68.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="21.0" prefWidth="140.0" style="-fx-background-color: white; -fx-border-color: green;" text="delete selected playlist">
+            <Button fx:id="deleteSelectedTrackBtn" layoutX="6.0" layoutY="68.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="21.0" prefWidth="140.0" style="-fx-background-color: white; -fx-border-color: green;" text="delete selected track">
                <font>
                   <Font size="10.0" />
                </font>
@@ -68,7 +68,7 @@
                   <Cursor fx:constant="CROSSHAIR" />
                </cursor>
             </Button>
-            <Button fx:id="deleteSelectedTrackBtn" layoutX="6.0" layoutY="98.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="21.0" prefWidth="140.0" style="-fx-background-color: white; -fx-border-color: green;" text="delete selected track">
+            <Button fx:id="addPlaylistBtn" layoutX="6.0" layoutY="128.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="21.0" prefWidth="140.0" style="-fx-background-color: white; -fx-border-color: green;" text="add playlist">
                <font>
                   <Font size="10.0" />
                </font>
@@ -76,7 +76,7 @@
                   <Cursor fx:constant="CROSSHAIR" />
                </cursor>
             </Button>
-            <Button fx:id="editSelectedTrackBtn" layoutX="6.0" layoutY="128.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="21.0" prefWidth="140.0" style="-fx-background-color: white; -fx-border-color: green;" text="edit selected track">
+            <Button fx:id="deleteSelectedPlaylistBtn" layoutX="6.0" layoutY="158.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="21.0" prefWidth="140.0" style="-fx-background-color: white; -fx-border-color: green;" text="delete selected playlist">
                <font>
                   <Font size="10.0" />
                </font>
@@ -84,7 +84,7 @@
                   <Cursor fx:constant="CROSSHAIR" />
                </cursor>
             </Button>
-            <Button fx:id="changePosTrackBtn" layoutX="6.0" layoutY="158.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="21.0" prefWidth="140.0" style="-fx-background-color: white; -fx-border-color: green;" text="change position of track">
+            <Button fx:id="changePosTrackBtn" layoutX="6.0" layoutY="98.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="21.0" prefWidth="140.0" style="-fx-background-color: white; -fx-border-color: green;" text="change position of track">
                <font>
                   <Font size="10.0" />
                </font>
