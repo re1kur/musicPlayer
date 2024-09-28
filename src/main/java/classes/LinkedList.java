@@ -1,6 +1,5 @@
 package classes;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 /*
 Класс двусвязного кольцевого списка
@@ -14,24 +13,7 @@ public class LinkedList<T> {
      */
     public LinkedList () {
     }
-    /*
-    Конструктор для создания кольцевого списка при получении массива значений
-     */
-    public LinkedList (List<T> values) {
-        head = new Node<>(values.get(0));
-        tail = head;
-        head.setNextNode(head);
-        head.setPreNode(head);
-        for (int i = 1; i < values.size(); i++) {
-            Node<T> newNode = new Node<>(values.get(i));
-            newNode.setPreNode(tail);
-            newNode.setNextNode(head);
-            tail.setNextNode(newNode);
-            head.setPreNode(newNode);
-            tail = newNode;
-        }
-        setCurrent(head);
-    }
+
     /*
     Метод для изменения обратного порядка списка
      */

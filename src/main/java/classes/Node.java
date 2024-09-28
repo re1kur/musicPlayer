@@ -5,7 +5,7 @@ package classes;
 public class Node<T> {
     private Node<T> preNode;
     private Node<T> nextNode;
-    private T value;
+    private final T value;
     /*
     Конструктор
      */

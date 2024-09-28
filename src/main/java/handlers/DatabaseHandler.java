@@ -133,7 +133,6 @@ public class DatabaseHandler {
         } catch (SQLException e) {
             System.err.println(
                     "Could not get id track from database\n" + e.getMessage());
-            ;
         } finally {
             closeStatement();
             closeConnection();

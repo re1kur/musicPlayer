@@ -56,11 +56,7 @@ public class DialogueTrackController {
         if (artistsTextField.getText().isEmpty()) {
             return false;
         }
-        if (albumsTextField.getText().isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
+        return !albumsTextField.getText().isEmpty();
     }
     /*
     Метод вставки трека в бд

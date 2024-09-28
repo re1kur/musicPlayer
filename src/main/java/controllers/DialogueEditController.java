@@ -60,10 +60,6 @@ public class DialogueEditController {
         if (artistsTextField.getText().isEmpty()) {
             return false;
         }
-        if (albumsTextField.getText().isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
+        return !albumsTextField.getText().isEmpty();
     }
 }

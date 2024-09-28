@@ -78,11 +78,10 @@ public class FileStorageHandler {
                              .object(uuid)
                              .build())) {
             track = File.createTempFile("track_", ".mp3");
-            try (FileOutputStream fos = new FileOutputStream(track);
-                 InputStream is = object) {
+            try (FileOutputStream fos = new FileOutputStream(track)) {
                 byte[] buffer = new byte[8192];
                 int bytesRead;
-                while ((bytesRead = is.read(buffer)) != -1) {
+                while ((bytesRead = ((InputStream) object).read(buffer)) != -1) {
                     fos.write(buffer, 0, bytesRead);
                 }
             }

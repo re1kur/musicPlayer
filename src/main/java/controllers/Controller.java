@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -74,7 +76,7 @@ public class Controller {
     @FXML
     void initialize() {
         addPlaylistBtn.setOnAction(_ -> openDialoguePlaylist());
-        playlistChoiceBox.getItems().addAll(getPlaylists());
+        playlistChoiceBox.getItems().addAll(Objects.requireNonNull(getPlaylists()));
         playlistChoiceBox.setOnAction(_ -> getTracks());
         closeWindowBtn.setOnAction(_ -> System.exit(0));
         openFileChooserBtn.setOnAction(_ -> openFileChooser());
@@ -110,7 +112,7 @@ public class Controller {
         dialogue.initOwner(mainAnchor.getScene().getWindow());
         try {
             Parent root =
-                    FXMLLoader.load(getClass().getResource("/dialogueChangePos.fxml"));
+                    FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/dialogueChangePos.fxml")));
             dialogue.setScene(new Scene(root));
             dialogue.showAndWait();
         } catch (IOException e) {
@@ -148,7 +150,7 @@ public class Controller {
         dialogue.initOwner(mainAnchor.getScene().getWindow());
         try {
             Parent root =
-                    FXMLLoader.load(getClass().getResource("/dialogueEdit.fxml"));
+                    FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/dialogueEdit.fxml")));
             dialogue.setScene(new Scene(root));
             dialogue.showAndWait();
         } catch (IOException e) {
@@ -199,7 +201,7 @@ public class Controller {
                     + e.getMessage());
         } finally {
             clearPlaylistControls();
-            playlistChoiceBox.getItems().addAll(getPlaylists());
+            playlistChoiceBox.getItems().addAll(Objects.requireNonNull(getPlaylists()));
         }
     }
     /*
@@ -396,7 +398,7 @@ public class Controller {
         dialogue.initOwner(mainAnchor.getScene().getWindow());
         try {
             Parent root =
-                    FXMLLoader.load(getClass().getResource("/dialogueTrack.fxml"));
+                    FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/dialogueTrack.fxml")));
             dialogue.setScene(new Scene(root));
             dialogue.showAndWait();
         } catch (IOException e) {
@@ -419,7 +421,7 @@ public class Controller {
         dialogue.initOwner(mainAnchor.getScene().getWindow());
         try {
             Parent root =
-                    FXMLLoader.load(getClass().getResource("/dialoguePlaylist.fxml"));
+                    FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/dialoguePlaylist.fxml")));
             dialogue.setScene(new Scene(root));
             dialogue.showAndWait();
         } catch (IOException e) {
@@ -428,7 +430,7 @@ public class Controller {
         } finally {
             dialogue.close();
             playlistChoiceBox.getItems().clear();
-            playlistChoiceBox.getItems().addAll(getPlaylists());
+            playlistChoiceBox.getItems().addAll(Objects.requireNonNull(getPlaylists()));
         }
     }
     /*
