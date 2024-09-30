@@ -1,4 +1,4 @@
-package classes;
+package project.classes;
 
 import java.io.IOException;
 import java.util.Objects;

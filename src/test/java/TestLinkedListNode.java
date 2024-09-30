@@ -1,4 +1,4 @@
-import classes.Node;
+import project.classes.Node;
 import junit.framework.TestCase;
 
 public class TestLinkedListNode extends TestCase {

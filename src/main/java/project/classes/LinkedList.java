@@ -1,4 +1,4 @@
-package classes;
+package project.classes;
 
 import java.util.NoSuchElementException;
 

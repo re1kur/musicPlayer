@@ -1,11 +1,11 @@
-package controllers;
+package project.controllers;
 
-import classes.Composition;
-import classes.Node;
-import classes.PlayList;
-import handlers.DatabaseHandler;
-import handlers.FileStorageHandler;
-import handlers.Handler;
+import project.classes.Composition;
+import project.classes.Node;
+import project.classes.PlayList;
+import project.handlers.DatabaseHandler;
+import project.handlers.FileStorageHandler;
+import project.handlers.Handler;
 
 import java.io.File;
 import java.io.IOException;

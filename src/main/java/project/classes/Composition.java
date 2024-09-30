@@ -1,4 +1,4 @@
-package classes;
+package project.classes;
 
 /*
 Класс композиции для хранения ее в Node

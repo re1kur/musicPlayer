@@ -1,7 +1,7 @@
-package controllers;
+package project.controllers;
 
-import handlers.DatabaseHandler;
-import handlers.Handler;
+import project.handlers.DatabaseHandler;
+import project.handlers.Handler;
 
 import java.sql.SQLException;
 

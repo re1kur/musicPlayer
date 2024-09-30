@@ -1,9 +1,9 @@
-package controllers;
+package project.controllers;
 
-import classes.Composition;
-import classes.Node;
-import classes.PlayList;
-import handlers.Handler;
+import project.classes.Composition;
+import project.classes.Node;
+import project.classes.PlayList;
+import project.handlers.Handler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;

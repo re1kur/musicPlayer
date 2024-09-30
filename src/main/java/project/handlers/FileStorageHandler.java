@@ -1,8 +1,7 @@
-package handlers;
+package project.handlers;
 
 import io.minio.*;
 import io.minio.errors.*;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -67,7 +66,7 @@ public class FileStorageHandler {
                 System.out.println("Bucket 'uploaded.tracks' exists.");
             }
         } catch (Exception e) {
-            System.err.println("Could not check if bucket 'uploaded.tracks' exists."
+            System.err.println("Could not check if bucket 'uploaded.tracks' exists.\n"
                     + e.getMessage());
         }
     }

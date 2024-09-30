@@ -1,6 +1,6 @@
-package handlers;
+package project.handlers;
 
-import classes.Composition;
+import project.classes.Composition;
 
 import java.sql.*;
 import java.util.ArrayList;

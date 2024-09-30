@@ -1,4 +1,4 @@
-package classes;
+package project.classes;
 
 /*
 Класс плейлиста, дочерний класс LinkedList

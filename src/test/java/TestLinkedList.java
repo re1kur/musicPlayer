@@ -1,5 +1,5 @@
-import classes.LinkedList;
-import classes.Node;
+import project.classes.LinkedList;
+import project.classes.Node;
 import junit.framework.TestCase;
 
 import java.util.NoSuchElementException;

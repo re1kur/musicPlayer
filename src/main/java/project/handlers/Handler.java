@@ -1,8 +1,8 @@
-package handlers;
+package project.handlers;
 
-import classes.Composition;
-import classes.Node;
-import classes.PlayList;
+import project.classes.Composition;
+import project.classes.Node;
+import project.classes.PlayList;
 
 import java.io.File;
 
